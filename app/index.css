@@ -101,6 +101,18 @@ button {
   margin-right: 0.25rem;
 }
 
+.error-container {
+  position: fixed;
+  top: 15rem;
+  color: #ffffff;
+  text-align: center;
+  width: 100%;
+}
+
+.smiley {
+  font-size: 70px;
+  transform: rotate(90deg);
+}
 
 
 

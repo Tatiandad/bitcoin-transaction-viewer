@@ -9,15 +9,21 @@ const ws = new WebSocket(SOCKET_URL)
 class App extends React.Component {
   state={
     open: false,
+    error: false,
     trans: []
   }
 
   componentDidMount() {
     ws.onopen = () =>
-      this.setState({ open: true })
+      this.setState({ 
+        open: true,
+        error: false 
+      })
     ws.onmessage = (msg) => {
       this.updateTransState(JSON.parse(msg.data))
     }
+    ws.onerror = () =>
+      this.setState({ error: true })
   }
 
   roundToTwo = (num) => {    
@@ -72,7 +78,7 @@ class App extends React.Component {
   renderBubbles = () => {
     const trans = this.state.trans.map((tran, idx) => {
       return (
-        <div className="transaction" key={idx} style={{ left: tran.left }}>
+        <div className='transaction' key={idx} style={{ left: tran.left }}>
           <img src={tran.dir === 'in' ? greenArrow : redArrow} />
           {tran.value} BTC
         </div>
@@ -89,9 +95,15 @@ class App extends React.Component {
           <button onClick={this.startFeed}>Start</button>
           <button onClick={this.stopFeed}>Stop</button>
         </div>
-        <div className="transactions-container">
+        <div className='transactions-container'>
           {this.state.trans.length > 0 && this.renderBubbles()}
         </div>
+        {this.state.error && 
+          <div className='error-container'>
+            <p className='smiley'>:(</p>
+            <p>Ooops! Something went wrong... We're working on it</p>
+          </div>
+        }
       </div>
     )
   }
