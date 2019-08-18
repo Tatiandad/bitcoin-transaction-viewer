@@ -24,7 +24,8 @@ module.exports = {
     ]
   },
   devServer: {
-    historyApiFallback: true
+    historyApiFallback: true,
+    port: 3000
   },
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   plugins: [
